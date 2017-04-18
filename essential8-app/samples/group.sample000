@@ -1,0 +1,29 @@
+02/27/2017 07:53:05 AM
+LogName=Security
+SourceName=Microsoft Windows security auditing.
+EventCode=4732
+EventType=0
+Type=Information
+ComputerName=dcsplunk.essential8.local
+TaskCategory=Security Group Management
+OpCode=Info
+RecordNumber=551947
+Keywords=Audit Success
+Message=A member was added to a security-enabled local group.
+
+Subject:
+	Security ID:		ESSENTIAL8\Administrator
+	Account Name:		Administrator
+	Account Domain:		ESSENTIAL8
+	Logon ID:		0x4E7FE
+
+Member:
+	Security ID:		ESSENTIAL8\jbloggs
+	Account Name:		CN=Joe Bloggs,OU=Users,OU=Accounts,OU=Environment,DC=essential8,DC=local
+
+Group:
+	Security ID:		ESSENTIAL8\Corporate FileShare
+	Group Name:		Corporate FileShare
+	Group Domain:		ESSENTIAL8
+
+Additional Information:

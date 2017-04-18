@@ -1,0 +1,86 @@
+<form>
+  <label>ASD Essential 8 - Application Whitelisting - Details</label>
+  <fieldset submitButton="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Total Allowed by User</title>
+      <chart>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting_Allow count(Application_Whitelisting_Allow) AS "Count of Application Whitelisting Allow" SPLITROW _time AS _time PERIOD auto SPLITCOL user SORT 10 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 0</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">area</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Total Blocked by User</title>
+      <chart>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting_Block count(Application_Whitelisting_Block) AS "Count of Application Whitelisting Block" SPLITROW _time AS _time PERIOD auto SPLITCOL user SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">area</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Total Audit By User</title>
+      <chart>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting_Audit count(Application_Whitelisting_Audit) AS "Count of Application Whitelisting Audit" SPLITROW _time AS _time PERIOD auto SPLITCOL user SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">area</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Application Whitelisting Block Details</title>
+      <table>
+        <search>
+          <query>| datamodel Application_Whitelisting Application_Whitelisting_Block search 
+| stats values(Application_Whitelisting.file_path) as "File Path" by Application_Whitelisting.user | rename Application_Whitelisting.user as User</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Application Whitelisting Audit Details</title>
+      <table>
+        <search>
+          <query>| datamodel Application_Whitelisting Application_Whitelisting_Audit search 
+| stats values(Application_Whitelisting.file_path) as "File Path" by Application_Whitelisting.user | rename Application_Whitelisting.user as User</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+</form>
