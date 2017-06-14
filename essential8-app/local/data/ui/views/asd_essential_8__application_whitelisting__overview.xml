@@ -11,6 +11,14 @@
   </fieldset>
   <row>
     <panel>
+      <title>Description</title>
+      <html>
+      <p>An application whitelist only allows selected software applications to run on computers. This page provides an overview of how you are tracking against key metrics in reporting against Application whitelisting. Providing total counts of allowed, blocked and audit application whitelisting events.  With the data collected from the 3 prior categories and data from a assett inventory source, such as Active directory, we can then identify the percentage coverage of hosts that have application whitelisting enforced in your environment.</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <title>Allowed Processes</title>
       <single>
         <title>Processes approved and run.</title>
@@ -118,12 +126,25 @@
       <title>Total Hosts in Environment</title>
       <single>
         <search>
-          <query>index=main | head 1 | eval total = 60| table total</query>
+          <query>|metadata type=sourcetypes | head 1 | eval total = 60| table total</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
         <option name="height">249</option>
       </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+     <title>Example data sources to power this dashboard </title>
+      <html>
+      <p>
+          <ul>
+    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
+    <li><b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

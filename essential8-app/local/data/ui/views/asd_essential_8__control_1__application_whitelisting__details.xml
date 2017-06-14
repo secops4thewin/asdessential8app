@@ -11,6 +11,22 @@
   </fieldset>
   <row>
     <panel>
+      <title>Description</title>
+      <html>
+      <p>An application whitelist only allows selected software applications to run on computers. This page provides details into Application Whitelisting controls in your environment. Providing visualisations related to counts of allowed, blocked and audit application whitelisting events by user.  In addition, the bottom two panels will show details in relation to executables and users that were blocked or allowed to run due to audit mode.</p>
+    </html>
+    </panel>
+  </row>
+   <row>
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to what </p>
+    </html>
+    </panel>
+  </row>
+  <row>
+        <panel>
       <title>Total Allowed by User</title>
       <chart>
         <search>
@@ -81,6 +97,19 @@
           <latest>$field1.latest$</latest>
         </search>
       </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Example data sources to power this dashboard </title>
+      <html>
+      <p>
+          <ul>
+    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
+    <li><b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

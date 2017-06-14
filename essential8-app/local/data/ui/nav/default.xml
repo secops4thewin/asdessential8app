@@ -1,7 +1,8 @@
 <nav search_view="search" color="#33B8FF">
 
   <collection label="Controls">
-    <view name="asd_essential_8__application_whitelisting__overview" label="Application Whitelisting - Overview" default="true"/>
+    <view name="asd_essential_8__overview" default="true"/>
+    <view name="asd_essential_8__application_whitelisting__overview" label="Application Whitelisting - Overview"/>
     <view name="asd_essential_8__control_1__application_whitelisting__details"/>
     <view name="asd_essential_8__patch_operating_systems"/>
     <view name="asd_essential_8__patch_operating_system__search"/>

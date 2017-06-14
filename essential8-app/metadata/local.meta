@@ -29,7 +29,7 @@ modtime = 1490080106.011303000
 [views/asd_ism_controls]
 owner = admin
 version = 6.5.2
-modtime = 1491174692.133544000
+modtime = 1493795667.642682000
 
 [views/asd_essential_8__control_5__restrict_admin_privileges]
 owner = admin
@@ -39,12 +39,12 @@ modtime = 1491725507.113936000
 [views/asd_essential_8__control_5__restrict_admin_privileges___changes]
 owner = admin
 version = 6.5.2
-modtime = 1491872284.961522000
+modtime = 1492499247.978676000
 
 [views/asd_essential_8__control_5__restrict_admin_privileges__changes_details]
 owner = admin
 version = 6.5.2
-modtime = 1490695589.979407000
+modtime = 1492500001.764198000
 
 [views/asd_essential_8__patch_operating_systems]
 owner = admin
@@ -71,7 +71,7 @@ access = read : [ * ], write : [ admin ]
 export = system
 owner = admin
 version = 6.5.2
-modtime = 1491729870.733997000
+modtime = 1497331534.247544000
 
 [views/asd_essential_9__multifactor_authentication__details]
 owner = admin
@@ -99,7 +99,7 @@ modtime = 1491618131.433785000
 
 [nav/default]
 version = 6.5.2
-modtime = 1491732759.758128000
+modtime = 1493965025.497547000
 
 [app/package/check_for_updates]
 version = 6.5.2
@@ -129,4 +129,32 @@ access = read : [ * ], write : [ admin, power ]
 export = system
 owner = admin
 version = 6.5.2
-modtime = 1491731597.677109000
+modtime = 1497329203.240100000
+
+[views/asd_essential_8__overview]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 6.5.2
+modtime = 1497325362.796586000
+
+[lookups/riskscore.csv]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1495161035.267794000
+
+[transforms/riskscore]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1494756007.480905000
+
+[savedsearches/Application%20Whitelisting]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1495071696.153385000

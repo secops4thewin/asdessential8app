@@ -65,7 +65,7 @@
       <title>Changes by Type</title>
       <chart>
         <search>
-          <query>| pivot Change_Analysis Account_Management count(Account_Management) AS "Count of Account Management" SPLITROW result AS result SORT 100 result ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 0</query>
+          <query>| pivot Change_Analysis Account_Management count(Account_Management) AS "Count of Account Management" SPLITROW result AS result SORT 20 result ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER false</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
