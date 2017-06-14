@@ -1,0 +1,150 @@
+<form>
+  <label>ASD Essential 8 - Application Whitelisting - Overview</label>
+  <fieldset submitButton="true" autoRun="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>An application whitelist only allows selected software applications to run on computers. This page provides an overview of how you are tracking against key metrics in reporting against Application whitelisting. Providing total counts of allowed, blocked and audit application whitelisting events.  With the data collected from the 3 prior categories and data from a assett inventory source, such as Active directory, we can then identify the percentage coverage of hosts that have application whitelisting enforced in your environment.</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Allowed Processes</title>
+      <single>
+        <title>Processes approved and run.</title>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting_Allow count(Application_Whitelisting_Allow) AS "Count of Application Whitelisting Allow" SPLITROW _time AS _time PERIOD auto SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Blocked Processes</title>
+      <single>
+        <title>Processes not approved and blocked</title>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting_Block count(Application_Whitelisting_Block) AS "Count of Application Whitelisting Block" SPLITROW _time AS _time PERIOD auto SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="trendInterval">auto</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Audit Allowed Processes</title>
+      <single>
+        <title>This should be 0 unless you are testing</title>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting_Audit count(Application_Whitelisting_Audit) AS "Count of Application Whitelisting Audit" SPLITROW _time AS _time PERIOD auto SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Total Hosts with Application Whitelisting</title>
+      <single>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting dc(host) AS "Distinct Count of host" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="height">251</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Percentage of Hosts With Application Whitelisting</title>
+      <chart>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting dc(host) AS "Distinct Count of host" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1 | rename "Distinct Count of host" as dc_host | eval total = 60 | eval amount=dc_host/total*100 |table amount</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">radialGauge</option>
+        <option name="charting.chart.rangeValues">[0,30,70,100]</option>
+        <option name="charting.chart.style">minimal</option>
+        <option name="charting.gaugeColors">["0xd13b3b","0xFFE800","0x7e9f44"]</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Total Hosts in Environment</title>
+      <single>
+        <search>
+          <query>|metadata type=sourcetypes | head 1 | eval total = 60| table total</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="height">249</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+     <title>Example data sources to power this dashboard </title>
+      <html>
+      <p>
+          <ul>
+    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
+    <li><b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
+    </panel>
+  </row>
+</form>
