@@ -1,0 +1,35 @@
+<form>
+  <label>ASD Essential 8 - Patch Operating System - Search</label>
+  <fieldset submitButton="true">
+    <input type="text" token="update">
+      <label>Update</label>
+      <default>*</default>
+    </input>
+    <input type="time" token="field2">
+      <label></label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>| tstats max(_time) as _time,latest(Updates.status) as status from datamodel=Updates.Updates where *  (Updates.signature_id=$update$)  by Updates.dest,Updates.signature_id,Updates.vendor_product | `drop_dm_object_name("Updates")`</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

@@ -1,0 +1,53 @@
+<form>
+  <label>ASD Essential 8 - Restrict Admin Privileges - Changes Details</label>
+  <fieldset submitButton="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Group Changes</title>
+      <table>
+        <title>Details</title>
+        <search>
+          <query>|datamodel Change_Analysis Account_Management search | search TaskCategory="*Group Management" | `drop_dm_object_name("All_Changes")` | eval src_user=mvindex(Security_ID,0) | eval dest_user=mvindex(Security_ID,1) | eval group=mvindex(Security_ID,2)| table _time,action, src_user,dest_user,group,signature | rename action as Action, src_user as "Source User", dest_user as "Destination User", group as Group, signature as "Activity Action"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>User Changes</title>
+      <table>
+        <search>
+          <query>| datamodel Change_Analysis search | search All_Changes.change_type=user | table _time, All_Changes.user, All_Changes.action, All_Changes.dest, All_Changes.result | rename All_Changes.user as User, All_Changes.action as Action, All_Changes.dest as Hostname, All_Changes.result as Result</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

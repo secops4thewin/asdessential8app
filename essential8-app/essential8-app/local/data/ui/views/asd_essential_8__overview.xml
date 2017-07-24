@@ -1,0 +1,151 @@
+<dashboard>
+  <label>ASD Essential 8 - Overview</label>
+  <row>
+    <panel>
+      <title>Overview</title>
+      <html>
+      <p>This overview page shows the general health of the environment as it relates to ASD Essential 8.  Each control is refreshed daily and shows how your organisation is tracking against each control over the last 30 days.  Each number is represented as a percentage of compliance to the control.  For example: Control #1, if your goal is to have 95% of hosts with application whitelisting enforced then a score of 100 would mean that you met that target.</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>Application Whitelisting</h2>
+       </div>
+       </html>
+      <chart>
+        <search ref="Application Whitelisting"></search>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.text">% Compliance with Target Over Time</option>
+        <option name="charting.axisY.maximumNumber">100</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart">line</option>
+      </chart>
+    </panel>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>Patch Applications</h2>
+       </div>
+       </html>
+      <single>
+        <search>
+          <query>index=main | head 1 | eval result="No Data" | table result</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="underLabel">% Compliance with target</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>Disable Untrusted Microsoft Office Macros</h2>
+       </div>
+       </html>
+      <single>
+        <search>
+          <query>index=main | head 1 | eval result="Requires Attention" | table result</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="underLabel">% Compliance with target</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>User Application Hardening</h2>
+       </div>
+       </html>
+      <single>
+        <search>
+          <query>index=main | head 1 | eval result="Requires Attention" | table result</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="underLabel">% Compliance with target</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>Restrict Admin Privileges</h2>
+       </div>
+       </html>
+      <single>
+        <search ref="Privileged Admin Total Report"></search>
+        <option name="colorMode">block</option>
+        <option name="rangeColors">["0xd93f3c","0xf58f39","0x65a637"]</option>
+        <option name="rangeValues">[90,99]</option>
+        <option name="underLabel">% Compliance with target</option>
+        <option name="unit">%</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>Patch Operating Systems</h2>
+       </div>
+       </html>
+      <single>
+        <search>
+          <query>index=main | head 1 | eval result="No action required" | table result</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="underLabel">% Compliance with target</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>Multi Factor Authentication</h2>
+       </div>
+       </html>
+      <single>
+        <search>
+          <query>index=main | head 1 | eval result="Requires Attention" | table result</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="underLabel">% Compliance with target</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <html>
+       <div style="text-align: center;">
+         <h2>Daily Backup Of Important Data</h2>
+       </div>
+       </html>
+      <single>
+        <search>
+          <query>index=main | head 1 | eval result="No Action Required" | table result</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="underLabel">% Compliance with target</option>
+      </single>
+    </panel>
+  </row>
+</dashboard>

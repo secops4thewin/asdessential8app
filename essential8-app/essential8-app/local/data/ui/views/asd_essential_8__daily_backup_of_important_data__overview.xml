@@ -1,0 +1,80 @@
+<form>
+  <label>ASD Essential 8 - Daily Backup of Important Data - Overview</label>
+  <fieldset submitButton="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Average Percentage of Successful Backups</title>
+      <chart>
+        <search>
+          <query>|inputlookup essential8 | search control=server_success_backups | eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | eval perc=(value/60)*100 | stats avg(perc) as avg</query>
+          <earliest>1490706000</earliest>
+          <latest>1491314400</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">fillerGauge</option>
+        <option name="charting.chart.rangeValues">[0,60,90,100]</option>
+        <option name="charting.gaugeColors">["0xd13b3b","0xebe42d","0x7e9f44"]</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Successful Backups</title>
+      <single>
+        <search>
+          <query>|inputlookup essential8 | search control=server_success_backups | eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | timechart values(value) as value</query>
+          <earliest>1490706000</earliest>
+          <latest>1491314400</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel"># Servers Last Night</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Failed Backups</title>
+      <single>
+        <search>
+          <query>|inputlookup essential8 | search control=server_failed_backups | eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | timechart values(value) as value</query>
+          <earliest>1490706000</earliest>
+          <latest>1491314400</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel"># Servers Last Night</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+</form>
