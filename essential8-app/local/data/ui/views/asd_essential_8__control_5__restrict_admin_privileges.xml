@@ -13,12 +13,7 @@
     <panel>
       <title>Distinct Privileged Users over Last 30 Days</title>
       <single>
-        <search>
-          <query>| pivot Authentication Successful_Privileged_Authentication dc(user) AS "Distinct Count of Privileged Users" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
-          <earliest>-30d@d</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
+        <search ref="Distinct Privileged Users over Last 30 Days"></search>
       </single>
     </panel>
   </row>

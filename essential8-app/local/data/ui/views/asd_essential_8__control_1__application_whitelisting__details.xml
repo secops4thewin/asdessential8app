@@ -21,7 +21,11 @@
     <panel>
       <title>How to Use This Dashboard</title>
       <html>
-      <p>When reviewing this dashboard you should pay attention to what </p>
+      <p>When reviewing this dashboard you should pay attention to trends in application whitelisting blocked execution and audit execution trends.  Of importance are the following conditions <li>Application Whitelisting audit events, audit events are shown when a process is executed on a host that does not have application whitelisting rules enforced. </li>
+      <li>Administrators executing applications that should have been prevented by policy.</li>
+      <li>Risky application execution, i.e cmd.exe, powershell.exe, net.exe etc</li>
+      
+      </p>
     </html>
     </panel>
   </row>
@@ -105,7 +109,7 @@
       <html>
       <p>
           <ul>
-    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
+    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Airlock Digital, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
     <li><b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
   </ul>
       </p>

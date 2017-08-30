@@ -8,7 +8,42 @@
         <latest>now</latest>
       </default>
     </input>
+     <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>          
+       </condition>      
+      </change>
+    </input>
   </fieldset>
+  <row depends="$showDescription$">
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>Block web browser access to Adobe Flash Player (uninstall if possible), web ads and untrusted Java code on the Internet.  Flash, Java and web ads have long been popular ways to deliver malware to infect computers. This page provides an overview of how you are tracking against key metrics in reporting against Application whitelisting. Providing total counts of allowed, blocked and audit application whitelisting events.  With the data collected from the 3 prior categories and data from a assett inventory source, such as Active directory, we can then identify the percentage coverage of hosts that have application whitelisting enforced in your environment.</p>
+    </html>
+    </panel>
+  </row>
+  <row depends="$showHowToUse$">
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the percentage of hosts that have application whitelisting and also trends in application whitelisting blocked execution and audit execution trends</p>
+    </html>
+    </panel>
+  </row>
   <row>
     <panel>
       <title>Blocked Web Ads</title>
@@ -62,6 +97,19 @@
         <option name="charting.chart">column</option>
         <option name="charting.chart.stackMode">stacked</option>
       </chart>
+    </panel>
+  </row>
+    <row depends="$showExampleSources$">
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+       <p>
+          <ul>
+    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Airlock Digital, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
+    <li><b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

@@ -15,15 +15,16 @@
          <h2>Application Whitelisting</h2>
        </div>
        </html>
-      <single>
+      <chart>
         <search ref="Application Whitelisting"></search>
-        <option name="colorMode">block</option>
-        <option name="rangeColors">["0xd93f3c","0xf7bc38","0xf58f39","0x65a637","0x65a637"]</option>
-        <option name="rangeValues">[0,60,85,100]</option>
-        <option name="underLabel">% Compliance with target</option>
-        <option name="unit">%</option>
-        <option name="useColors">1</option>
-      </single>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.text">% Compliance with Target Over Time</option>
+        <option name="charting.axisY.maximumNumber">100</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart">line</option>
+      </chart>
     </panel>
     <panel>
       <html>
@@ -88,14 +89,10 @@
        </div>
        </html>
       <single>
-        <search>
-          <query>| pivot Authentication Successful_Privileged_Authentication dc(user) AS "Distinct Count of Privileged Users" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
-          <earliest>-30d@d</earliest>
-          <latest>now</latest>
-        </search>
+        <search ref="Privileged Admin Total Report"></search>
         <option name="colorMode">block</option>
-        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
-        <option name="rangeValues">[45,50,55,60]</option>
+        <option name="rangeColors">["0xd93f3c","0xf58f39","0x65a637"]</option>
+        <option name="rangeValues">[90,99]</option>
         <option name="underLabel">% Compliance with target</option>
         <option name="unit">%</option>
         <option name="useColors">1</option>

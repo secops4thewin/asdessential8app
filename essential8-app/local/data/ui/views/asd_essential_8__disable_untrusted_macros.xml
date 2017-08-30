@@ -47,16 +47,22 @@
   </row>
   <row>
     <panel>
-      <title>Email - Allowed Macro Details</title>
+      <single>
+        <title>Distinct count of Trusted Locations by Office Application</title>
+        <search ref="Distinct Count of Trusted Locations"></search>
+        <option name="drilldown">none</option>
+        <option name="height">186</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">large</option>
+      </single>
+    </panel>
+    <panel>
       <table>
-        <search>
-          <query>|inputlookup essential8 | search control=email_macro_allowed_contents | table value, value2, value3 | rename value as "Recipient", value2 as Sender, value3 as "File Name"</query>
-          <earliest>0</earliest>
-          <sampleRatio>1</sampleRatio>
-        </search>
+        <title>Macro Settings in Environment</title>
+        <search ref="Macro Settings in Environment"></search>
         <option name="count">20</option>
         <option name="dataOverlayMode">none</option>
-        <option name="drilldown">cell</option>
+        <option name="drilldown">none</option>
         <option name="percentagesRow">false</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
