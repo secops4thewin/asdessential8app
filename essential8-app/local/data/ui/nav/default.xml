@@ -5,6 +5,7 @@
     <view name="asd_essential_8__application_whitelisting__overview" label="Application Whitelisting - Overview"/>
     <view name="asd_essential_8__control_1__application_whitelisting__details"/>
     <view name="asd_essential_8__patch_operating_systems"/>
+    <view name="asd_essential_8__patch_operating_systems__details"/>
     <view name="asd_essential_8__patch_operating_system__search"/>
     <view name="asd_essential_8__disable_untrusted_macros"/>
     <view name="asd_essential_8__user_application_hardening__overview"/>
@@ -15,6 +16,7 @@
     <view name="asd_essential_8__multifactor_authentication__overview"/>
     <view name="asd_essential_9__multifactor_authentication__details"/>
     <view name="asd_essential_8__daily_backup_of_important_data__overview"/>
+    
   </collection>
     <view name="search"/>
   <view name="datasets" />

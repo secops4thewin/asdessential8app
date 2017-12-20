@@ -11,9 +11,10 @@
   </fieldset>
   <row>
     <panel>
-      <title>Distinct Privileged Users over Last 30 Days</title>
+      <title>Distinct Privileged Users over 30 Days</title>
       <single>
-        <search ref="Distinct Privileged Users over Last 30 Days"></search>
+        <search ref="Distinct Privileged Users over 30 Days"></search>
+        <option name="drilldown">none</option>
       </single>
     </panel>
   </row>
@@ -22,22 +23,24 @@
       <title>Total Successfull Privileged Authentication - Today</title>
       <single>
         <search>
-          <query>| pivot Authentication Successful_Privileged_Authentication count(Successful_Privileged_Authentication) AS "Count of Successful Privileged Authentication" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <query>| tstats count AS "Count of Successful Privileged Authentication" from datamodel=Authentication where (nodename = Authentication.Privileged_Authentication.Successful_Privileged_Authentication) by _time</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
+        <option name="refresh.display">progressbar</option>
       </single>
     </panel>
     <panel>
       <title>Total Failed Privileged Authentication - Today</title>
       <single>
         <search>
-          <query>| pivot Authentication Failed_Privileged_Authentication count(Failed_Privileged_Authentication) AS "Count of Failed Privileged Authentication" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <query>| tstats count from datamodel=Authentication where nodename=Failed_Privileged_Authentication by _time</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
+        <option name="refresh.display">progressbar</option>
       </single>
     </panel>
   </row>
@@ -82,7 +85,7 @@
       <title>Account Names of Privileged Users</title>
       <table>
         <search>
-          <query>| datamodel Authentication Successful_Privileged_Authentication search | stats count by Authentication.user, Authentication.app | sort -count</query>
+          <query>| tstats count AS "Count of User Activities" from datamodel=Authentication where (nodename = Authentication.Privileged_Authentication.Successful_Privileged_Authentication) by Authentication.user, Authentication.app | sort -count</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -91,6 +94,7 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
@@ -100,7 +104,7 @@
       <title>Account Names of Failed Privileged Escalations</title>
       <table>
         <search>
-          <query>| datamodel Authentication Failed_Privileged_Authentication search | stats count by Authentication.user, Authentication.app | sort -count</query>
+          <query>| tstats count AS "Count of Failed User Activities" from datamodel=Authentication where (nodename = Authentication.Privileged_Authentication.Failed_Privileged_Authentication) by Authentication.user, Authentication.app | sort -count</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -109,6 +113,7 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>

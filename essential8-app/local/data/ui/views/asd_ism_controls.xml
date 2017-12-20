@@ -89,6 +89,23 @@
   </row>
   <row>
     <panel>
+      <title>Hosts with Auditing Enabled</title>
+      <single>
+        <search>
+          <query>| pivot Application_Whitelisting Application_Whitelisting_Audit dc(host) AS "Distinct Count of host" ROWSUMMARY 0 COLSUMMARY 0 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x65a637","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[5,10]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
       <title>Total Hosts with Application Whitelisting</title>
       <single>
         <search>
@@ -98,21 +115,6 @@
         </search>
         <option name="height">251</option>
       </single>
-    </panel>
-    <panel>
-      <title>Percentage of Hosts With Application Whitelisting</title>
-      <chart>
-        <search>
-          <query>| pivot Application_Whitelisting Application_Whitelisting dc(host) AS "Distinct Count of host" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1 | rename "Distinct Count of host" as dc_host | eval total = 60 | eval amount=dc_host/total*100 |table amount</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="charting.chart">radialGauge</option>
-        <option name="charting.chart.rangeValues">[0,30,70,100]</option>
-        <option name="charting.chart.style">minimal</option>
-        <option name="charting.gaugeColors">["0xd13b3b","0xFFE800","0x7e9f44"]</option>
-      </chart>
     </panel>
     <panel>
       <title>Total Hosts in Environment</title>

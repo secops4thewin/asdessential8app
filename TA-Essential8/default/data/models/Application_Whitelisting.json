@@ -12,6 +12,7 @@
             "objectName": "Application_Whitelisting",
             "displayName": "Application Whitelisting",
             "parentName": "BaseEvent",
+            "comment": "",
             "fields": [
                 {
                     "fieldName": "cert_issuer",
@@ -230,7 +231,7 @@
             ],
             "constraints": [
                 {
-                    "search": "index=wineventlog tag=appwhitelist",
+                    "search": "`appwhitelisting_index` tag=appwhitelist",
                     "owner": "Application_Whitelisting"
                 }
             ],
@@ -240,6 +241,7 @@
             "objectName": "Application_Whitelisting_Allow",
             "displayName": "Application Whitelisting Allow",
             "parentName": "Application_Whitelisting",
+            "comment": "",
             "fields": [
                 {
                     "fieldName": "cert_issuer",
@@ -423,6 +425,7 @@
             "objectName": "Application_Whitelisting_Block",
             "displayName": "Application Whitelisting Block",
             "parentName": "Application_Whitelisting",
+            "comment": "",
             "fields": [
                 {
                     "fieldName": "cert_issuer",
@@ -606,6 +609,7 @@
             "objectName": "Application_Whitelisting_Audit",
             "displayName": "Application Whitelisting Audit",
             "parentName": "Application_Whitelisting",
+            "comment": "",
             "fields": [
                 {
                     "fieldName": "cert_issuer",

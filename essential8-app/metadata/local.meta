@@ -28,23 +28,23 @@ modtime = 1502938290.123753000
 
 [views/asd_ism_controls]
 owner = admin
-version = 6.5.2
-modtime = 1493795667.642682000
+version = 7.0.1
+modtime = 1513133041.024745000
 
 [views/asd_essential_8__control_5__restrict_admin_privileges]
 owner = admin
-version = 6.5.2
-modtime = 1498526812.530316000
+version = 7.0.1
+modtime = 1513646045.713135000
 
 [views/asd_essential_8__control_5__restrict_admin_privileges___changes]
 owner = admin
-version = 6.5.2
-modtime = 1492499247.978676000
+version = 7.0.1
+modtime = 1513725862.537348000
 
 [views/asd_essential_8__control_5__restrict_admin_privileges__changes_details]
 owner = admin
-version = 6.5.2
-modtime = 1492500001.764198000
+version = 7.0.1
+modtime = 1513725961.466983000
 
 [views/asd_essential_8__patch_operating_systems]
 owner = admin
@@ -58,8 +58,8 @@ modtime = 1498527285.345706000
 
 [views/asd_essential_8__user_application_hardening__overview]
 owner = admin
-version = 6.6.2
-modtime = 1502934128.103327000
+version = 7.0.1
+modtime = 1513726074.654855000
 
 [views/asd_essential_8__multifactor_authentication__overview]
 owner = admin
@@ -70,8 +70,8 @@ modtime = 1490698342.802680000
 access = read : [ * ], write : [ admin ]
 export = system
 owner = admin
-version = 6.5.2
-modtime = 1497860299.257094000
+version = 7.0.1
+modtime = 1513207845.134718000
 
 [views/asd_essential_9__multifactor_authentication__details]
 owner = admin
@@ -98,8 +98,8 @@ version = 6.5.2
 modtime = 1491618131.433785000
 
 [nav/default]
-version = 6.5.2
-modtime = 1493965025.497547000
+version = 7.0.1
+modtime = 1513658189.972960000
 
 [app/package/check_for_updates]
 version = 6.5.2
@@ -121,15 +121,15 @@ modtime = 1499725726.358034000
 access = read : [ * ], write : [ admin ]
 export = system
 owner = admin
-version = 6.6.2
-modtime = 1502937968.907027000
+version = 7.0.1
+modtime = 1513722466.282718000
 
 [views/asd_essential_8__application_whitelisting__overview]
 access = read : [ * ], write : [ admin, power ]
 export = system
 owner = admin
-version = 6.6.2
-modtime = 1502933430.971885000
+version = 7.0.1
+modtime = 1513643152.714759000
 
 [views/asd_essential_8__overview]
 access = read : [ * ], write : [ admin, power ]
@@ -193,3 +193,17 @@ export = none
 owner = admin
 version = 6.6.2
 modtime = 1499725723.425181000
+
+[savedsearches/Distinct%20Privileged%20Users%20over%2030%20Days]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 7.0.1
+modtime = 1513646230.924918000
+
+[views/asd_essential_8__patch_operating_systems__details]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 7.0.1
+modtime = 1513658088.122166000

@@ -8,13 +8,48 @@
         <latest>now</latest>
       </default>
     </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
   </fieldset>
+  <row depends="$showDescription$">
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>Block web browser access to Adobe Flash Player (uninstall if possible), web ads and untrusted Java code on the Internet.  Flash, Java and web ads have long been popular ways to deliver malware to infect computers. This page provides details on what applications with Java user agents are communicating through your proxy and enabled flash and advertisements.</p>
+    </html>
+    </panel>
+  </row>
+  <row depends="$showHowToUse$">
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the domains that are allowed through the proxy such as web advertisements and flash.  Use this list to inform strategies to mitigate attacks that leverage Flash, Java and web advertisements.</p>
+    </html>
+    </panel>
+  </row>
   <row>
     <panel>
       <title>Allowed Flash and Shockwave by Domain</title>
       <table>
         <search>
-          <query>| tstats  values(Web.user) as user count from datamodel=Web where (nodename=Web.Proxy (Web.http_content_type=*Shockwave* OR Web.http_content_type=*Flash* OR Web.http_user_agent="Java*" OR http_user_agent="*flash")) by Web.dest, Web.http_content_type   | sort -count | rename dest as Domain</query>
+          <query>| tstats  values(Web.user) as user count from datamodel=Web where (nodename=Web.Proxy (Web.http_content_type=*Shockwave* OR Web.http_content_type=*Flash* OR Web.http_user_agent="Java*" OR http_user_agent="*flash")) by Web.dest  | sort -count | rename dest as Domain</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -23,16 +58,17 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
       </table>
     </panel>
     <panel>
-      <title>Disabling of Web Ads</title>
+      <title>Allowed Web Ads</title>
       <table>
         <search>
-          <query>| tstats  values(Web.user) as user count from datamodel=Web where (nodename=Web.Proxy (Web.category=*Web Ads* OR Web.category=*Advertisement*)) by Web.dest, Web.http_content_type   | sort -count | rename dest as Domain</query>
+          <query>| tstats  values(Web.user) as user count from datamodel=Web where (nodename=Web.Proxy (Web.dest=*Ads*)) by Web.dest   | sort -count | rename dest as Domain</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -41,10 +77,26 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
       </table>
+    </panel>
+  </row>
+  <row depends="$showExampleSources$">
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+       <p>
+          <ul>
+    <li>
+              <b>Web Proxy Data</b> - Symantec Bluecoat, Websense, Squid Proxy or ZScaler.  These sources must log Allows and Blocks to provide accurate data</li>
+    <li>
+              <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames and usernames to allow comparison to proxy data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

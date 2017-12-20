@@ -8,7 +8,7 @@
         <latest>now</latest>
       </default>
     </input>
-     <input type="radio" token="showGuidance" searchWhenChanged="true">
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
       <label>Show Guidance</label>
       <choice value="true">On</choice>
       <choice value="false">Off</choice>
@@ -23,8 +23,8 @@
         <condition>
           <unset token="showDescription"></unset>
           <unset token="showHowToUse"></unset>
-          <unset token="showExampleSources"></unset>          
-       </condition>      
+          <unset token="showExampleSources"></unset>
+        </condition>
       </change>
     </input>
   </fieldset>
@@ -32,7 +32,7 @@
     <panel>
       <title>Description</title>
       <html>
-      <p>Block web browser access to Adobe Flash Player (uninstall if possible), web ads and untrusted Java code on the Internet.  Flash, Java and web ads have long been popular ways to deliver malware to infect computers. This page provides an overview of how you are tracking against key metrics in reporting against Application whitelisting. Providing total counts of allowed, blocked and audit application whitelisting events.  With the data collected from the 3 prior categories and data from a assett inventory source, such as Active directory, we can then identify the percentage coverage of hosts that have application whitelisting enforced in your environment.</p>
+      <p>Block web browser access to Adobe Flash Player (uninstall if possible), web ads and untrusted Java code on the Internet.  Flash, Java and web ads have long been popular ways to deliver malware to infect computers. This page provides details on what applications with Java user agents are communicating through your proxy and enabled flash and advertisements.</p>
     </html>
     </panel>
   </row>
@@ -40,7 +40,7 @@
     <panel>
       <title>How to Use This Dashboard</title>
       <html>
-      <p>When reviewing this dashboard you should pay attention to the percentage of hosts that have application whitelisting and also trends in application whitelisting blocked execution and audit execution trends</p>
+      <p>When reviewing this dashboard, you should pay attention to the trending of allowed domains.  Blocked domains should be higher than allowed.  If there are no results related to blocked domains there is either an issue with collection of data or you may not be blocking advertisement domains.</p>
     </html>
     </panel>
   </row>
@@ -49,9 +49,9 @@
       <title>Blocked Web Ads</title>
       <single>
         <search>
-          <query>|inputlookup essential8 | search control=webads_blocked | eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | timechart values(value) as value</query>
-          <earliest>1490706000</earliest>
-          <latest>1491314400</latest>
+          <query>| tstats  count from datamodel=Web where (nodename=Web.Proxy (Web.category=*advertisement*) Web.action=blocked) by _time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="colorBy">trend</option>
@@ -60,6 +60,7 @@
         <option name="numberPrecision">0</option>
         <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
         <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
         <option name="showSparkline">1</option>
         <option name="showTrendIndicator">1</option>
         <option name="trendColorInterpretation">inverse</option>
@@ -73,12 +74,13 @@
       <title>Allowed Web Ads</title>
       <single>
         <search>
-          <query>|inputlookup essential8 | search control=webads_allowed | eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | timechart values(value) as value</query>
-          <earliest>1490706000</earliest>
-          <latest>1491314400</latest>
+          <query>| tstats  count from datamodel=Web where (nodename=Web.Proxy (Web.category=*advertisement* OR Web.dest=*ads*) Web.action=allowed) by _time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
         </search>
         <option name="colorBy">trend</option>
         <option name="colorMode">block</option>
+        <option name="refresh.display">progressbar</option>
         <option name="trendColorInterpretation">inverse</option>
         <option name="trendDisplayMode">percent</option>
         <option name="useColors">1</option>
@@ -87,26 +89,31 @@
   </row>
   <row>
     <panel>
-      <title>Flash Player</title>
+      <title>Flash Player Activity</title>
       <chart>
         <search>
-          <query>|inputlookup essential8 | search control=user_app_hardening_flash_* | eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | timechart values(value) as value by control | rename user_app_hardening_flash_allowed as "Flash Allowed" user_app_hardening_flash_blocked as "Flash Blocked"</query>
-          <earliest>1490706000</earliest>
-          <latest>1491314400</latest>
+          <query>| tstats  count from datamodel=Web where (nodename=Web.Proxy (Web.http_content_type=*Shockwave* OR Web.http_content_type=*Flash* OR Web.http_user_agent="Java*" OR http_user_agent="*flash")) by _time, Web.action
+|  chart max(count) as count over _time by Web.action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
         </search>
-        <option name="charting.chart">column</option>
+        <option name="charting.chart">area</option>
         <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
   </row>
-    <row depends="$showExampleSources$">
+  <row depends="$showExampleSources$">
     <panel>
       <title>Example data sources to power this dashboard</title>
       <html>
        <p>
           <ul>
-    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Airlock Digital, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
-    <li><b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+    <li>
+              <b>Web Proxy Data</b> - Symantec Bluecoat, Websense, Squid Proxy or ZScaler. These sources must log Allows and Blocks to provide accurate data.</li>
+    <li>
+              <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Proxy Data.</li>
   </ul>
       </p>
     </html>

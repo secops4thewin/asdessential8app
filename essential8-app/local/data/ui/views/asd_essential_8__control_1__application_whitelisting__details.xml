@@ -8,6 +8,25 @@
         <latest>now</latest>
       </default>
     </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
   </fieldset>
   <row>
     <panel>
@@ -17,7 +36,7 @@
     </html>
     </panel>
   </row>
-   <row>
+  <row>
     <panel>
       <title>How to Use This Dashboard</title>
       <html>
@@ -30,7 +49,7 @@
     </panel>
   </row>
   <row>
-        <panel>
+    <panel>
       <title>Total Allowed by User</title>
       <chart>
         <search>
@@ -74,8 +93,8 @@
       <title>Application Whitelisting Block Details</title>
       <table>
         <search>
-          <query>| datamodel Application_Whitelisting Application_Whitelisting_Block search 
-| stats values(Application_Whitelisting.file_path) as "File Path" by Application_Whitelisting.user | rename Application_Whitelisting.user as User</query>
+          <query>|  tstats values(Application_Whitelisting.file_path) AS "File Path" from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Block) by Application_Whitelisting.user, host 
+|  rename Application_Whitelisting.user as user</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -84,6 +103,7 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
@@ -95,22 +115,25 @@
       <title>Application Whitelisting Audit Details</title>
       <table>
         <search>
-          <query>| datamodel Application_Whitelisting Application_Whitelisting_Audit search 
-| stats values(Application_Whitelisting.file_path) as "File Path" by Application_Whitelisting.user | rename Application_Whitelisting.user as User</query>
+          <query>|  tstats values(Application_Whitelisting.file_path) AS "File Path" from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Audit) by Application_Whitelisting.user, host
+|  rename Application_Whitelisting.user as user</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
   <row>
     <panel>
-      <title>Example data sources to power this dashboard </title>
+      <title>Example data sources to power this dashboard</title>
       <html>
       <p>
           <ul>
-    <li><b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Airlock Digital, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
-    <li><b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+    <li>
+              <b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Airlock Digital, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
+    <li>
+              <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
   </ul>
       </p>
     </html>
