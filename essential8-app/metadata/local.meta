@@ -131,13 +131,6 @@ owner = admin
 version = 7.0.1
 modtime = 1513643152.714759000
 
-[views/asd_essential_8__overview]
-access = read : [ * ], write : [ admin, power ]
-export = system
-owner = admin
-version = 6.5.2
-modtime = 1498526504.723402000
-
 [lookups/riskscore.csv]
 access = read : [ * ], write : [ admin ]
 export = none
