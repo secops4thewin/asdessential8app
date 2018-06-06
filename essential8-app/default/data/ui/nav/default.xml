@@ -11,6 +11,7 @@
 	
 	<collection label="Configure Microsoft Office macro settings">
 	<view name="asd_essential_8__disable_untrusted_macros"/>
+    <view name="disable_untrusted_macros__details"/>
 	</collection>
 
     <collection label="User Application Hardening">

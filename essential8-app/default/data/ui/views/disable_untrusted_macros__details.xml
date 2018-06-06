@@ -1,5 +1,5 @@
 <form>
-  <label>Disable Untrusted Macros - Overview</label>
+  <label>Disable Untrusted Macros - Details</label>
   <fieldset submitButton="true">
     <input type="time" token="field1">
       <label></label>
@@ -27,12 +27,30 @@
         </condition>
       </change>
     </input>
+    <input type="multiselect" token="host">
+      <label>Host</label>
+      <choice value="*">All</choice>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>host="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>| tstats values(host) as host where `macro_index` sourcetype=WinRegistry
+| mvexpand host</query>
+        <earliest>-30d@d</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
   </fieldset>
   <row depends="$showDescription$">
     <panel>
       <title>Description</title>
       <html>
-      <p>Configure Microsoft Office macro settings to block macros from the Internet, and only allow vetted macros either in ‘trusted locations’ with limited write access or digitally signed with a trusted certificate. <B>Why?</B> Microsoft Office macros can be used to deliver and execute malicious code on systems.
+      <p>Configure Microsoft Office macro settings to block macros from the Internet, and only allow vetted macros either in ‘trusted locations’ with limited write access or digitally signed with a trusted certificate. <li>
+            <B>Why?</B> - Microsoft Office macros can be used to deliver and execute malicious code on systems.</li>
         </p>
     </html>
     </panel>
@@ -48,38 +66,35 @@
   <row>
     <panel>
       <table>
-        <title>Distinct count of Trusted Locations by Office Application</title>
+        <title>Trusted Locations by Host</title>
         <search>
-          <query>`macro_index` sourcetype=WinRegistry key_path="*Trusted Locations*Path" 
-| rex field=_raw "host\=\"(?&lt;host&gt;[\w\-]+)" 
-| rex field=key_path "(?&lt;user&gt;lc\d+)" 
+          <query>index=* sourcetype=WinRegistry key_path="*Trusted Locations*Path" $host$ 
+| rex field=key_path "(?&lt;sid&gt;S\-[\d\-]+)" 
 | rex field=key_path "Office\\\(?&lt;office_version&gt;[\d\.]+)" 
 | rex field=key_path "\d{1,2}\.\d{1}\\\(?&lt;office_application&gt;[A-Za-z]+)" 
 | eval office_version=case(office_version="11.0","Office 2003",office_version="12.0","Office 2007",office_version="14.0","Office 2010",office_version="15.0","Office 2013",office_version="16.0","Office 2016") 
 | eval officeName=office_application + " " + office_version
-| stats dc(host) as "Distinct Hosts", dc(data) as "Distinct Trusted Locations" by officeName
-| rename data as "Trusted Location" office_application as "Office Application", office_version as "Office Version"</query>
+| stats values(data) as "Trusted Locations" by officeName, host
+| rename office_application as "Office Application", office_version as "Office Version"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
-        <option name="count">10</option>
         <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
     <panel>
       <table>
-        <title>Macro Settings in Environment</title>
+        <title>Macro Settings By Host</title>
         <search>
-          <query>`macro_index` sourcetype=WinRegistry key_path="*VBAWarnings"| rex field=_raw "host\=\"(?&lt;host&gt;[\w\-]+)" 
+          <query>`macro_index` sourcetype=WinRegistry key_path="*VBAWarnings"
 | rex field=key_path "(?&lt;sid&gt;S\-[\d\-]+)" 
 | rex field=key_path "Office\\\(?&lt;office_version&gt;[\d\.]+)" 
 | rex field=key_path "\d{1,2}\.\d{1}\\\(?&lt;office_application&gt;[A-Za-z]+)" 
 | eval office_version=case(office_version="11.0","Office 2003",office_version="12.0","Office 2007",office_version="14.0","Office 2010",office_version="15.0","Office 2013",office_version="16.0","Office 2016") 
 | eval officeName=office_application + " " + office_version
 | eval vba_warning=case(data="0x00000004(4)", "Disable All VBA's without notification", data="0x00000003(3)", "Disable all macros except those digitally signed", data="0x00000002(2)", "Disable All macros with notification",  data="0x00000001(1)", "Enable All Macros")
-| stats dc(host) as "Distinct Hosts", dc(sid) as "Distinct Users" by vba_warning, office_application
+| stats values(office_version) as office_version by host, vba_warning, office_application
 | rename  vba_warning as "Macro Setting" office_application as "Office Application", office_version as "Office Version"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
@@ -89,7 +104,6 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">none</option>
         <option name="percentagesRow">false</option>
-        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
