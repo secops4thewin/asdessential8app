@@ -1,0 +1,1362 @@
+{
+    "modelName": "Backup",
+    "displayName": "Backup",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 8,
+        "Transaction-Based": 0,
+        "Search-Based": 0
+    },
+    "objects": [
+        {
+            "objectName": "backup",
+            "displayName": "Backup",
+            "parentName": "BaseEvent",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "action=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "product=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "tag=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "vendor=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "backup_type",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "backup_type",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "message=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=backup `backup_index`",
+                    "owner": "backup"
+                }
+            ],
+            "lineage": "backup"
+        },
+        {
+            "objectName": "host_backup",
+            "displayName": "Host Backup",
+            "parentName": "backup",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "action=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "product=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "tag=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "vendor=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "backup_type",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "backup_type",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "message=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=\"host_backup\"",
+                    "owner": "backup.host_backup"
+                }
+            ],
+            "lineage": "backup.host_backup"
+        },
+        {
+            "objectName": "file_backup",
+            "displayName": "File Backup",
+            "parentName": "backup",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "action=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "product=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "tag=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "vendor=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "backup_type",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "backup_type",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "message=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=file_backup",
+                    "owner": "backup.file_backup"
+                }
+            ],
+            "lineage": "backup.file_backup"
+        },
+        {
+            "objectName": "restore",
+            "displayName": "Restore",
+            "parentName": "BaseEvent",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "restore_type",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "restore_type",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=restore `backup_index`",
+                    "owner": "restore"
+                }
+            ],
+            "lineage": "restore"
+        },
+        {
+            "objectName": "host_restore",
+            "displayName": "Host Restore",
+            "parentName": "restore",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=host_restore",
+                    "owner": "restore.host_restore"
+                }
+            ],
+            "lineage": "restore.host_restore"
+        },
+        {
+            "objectName": "file_restore",
+            "displayName": "File Restore",
+            "parentName": "restore",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=file_restore",
+                    "owner": "restore.file_restore"
+                }
+            ],
+            "lineage": "restore.file_restore"
+        },
+        {
+            "objectName": "configuration_backup",
+            "displayName": "Configuration Backup",
+            "parentName": "backup",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "action=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "product=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "tag=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "vendor=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "backup_type",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "backup_type",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "message=*",
+                    "required": true,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "backup",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=configuration_backup",
+                    "owner": "backup.configuration_backup"
+                }
+            ],
+            "lineage": "backup.configuration_backup"
+        },
+        {
+            "objectName": "configuration_restore",
+            "displayName": "Configuration Restore",
+            "parentName": "restore",
+            "comment": "",
+            "fields": [
+                {
+                    "fieldName": "User",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "user",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "action",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "message",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "message",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "product",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "product",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "src",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "tag",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "tag",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "vendor",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "vendor",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "file_name",
+                    "owner": "restore",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "file_name",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "tag=configuration_restore",
+                    "owner": "restore.configuration_restore"
+                }
+            ],
+            "lineage": "restore.configuration_restore"
+        }
+    ],
+    "objectNameList": [
+        "backup",
+        "host_backup",
+        "file_backup",
+        "restore",
+        "host_restore",
+        "file_restore",
+        "configuration_backup",
+        "configuration_restore"
+    ]
+}

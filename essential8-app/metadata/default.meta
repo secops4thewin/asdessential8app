@@ -1,8 +1,229 @@
 
 # Application-level permissions
 
+[app/ui]
+version = 6.5.2
+modtime = 1491622072.909310000
+
+[app/launcher]
+version = 6.5.2
+modtime = 1491622072.914064000
+
 []
 access = read : [ * ], write : [ admin, power ]
+export = system
+version = 6.5.2
+modtime = 1489904465.077775000
+
+[datamodels/Application_Whitelisting]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = nobody
+version = 6.6.2
+modtime = 1502938290.120964000
+
+[models/Application_Whitelisting]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = nobody
+version = 6.6.2
+modtime = 1502938290.123753000
+
+[views/asd_ism_controls]
+owner = admin
+version = 7.0.1
+modtime = 1513133041.024745000
+
+[views/asd_essential_8__control_5__restrict_admin_privileges]
+owner = admin
+version = 7.1.1
+modtime = 1528255882.098907000
+
+[views/asd_essential_8__control_5__restrict_admin_privileges___changes]
+owner = admin
+version = 7.1.1
+modtime = 1528255874.283064000
+
+[views/asd_essential_8__control_5__restrict_admin_privileges__changes_details]
+owner = admin
+version = 7.1.1
+modtime = 1528255896.600334000
+
+[views/asd_essential_8__patch_operating_systems]
+owner = admin
+version = 7.1.1
+modtime = 1528255978.172125000
+
+[views/asd_essential_8__patch_operating_system__search]
+owner = admin
+version = 7.1.1
+modtime = 1528255848.758906000
+
+[views/asd_essential_8__user_application_hardening__overview]
+owner = admin
+version = 7.1.1
+modtime = 1528255911.973159000
+
+[views/asd_essential_8__multifactor_authentication__overview]
+owner = admin
+version = 7.1.1
+modtime = 1528255842.003553000
+
+[views/asd_essential_8__control_1__application_whitelisting__details]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255794.204656000
+
+[views/asd_essential_9__multifactor_authentication__details]
+owner = admin
+version = 7.1.1
+modtime = 1528255836.837109000
+
+[indexes/tmp]
+owner = admin
+version = 6.5.2
+modtime = 1490942455.000232000
+
+[transforms/essential8]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1491618118.890083000
+
+[lookups/essential8.csv]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = nobody
+version = 6.5.2
+modtime = 1491618131.433785000
+
+[nav/default]
+version = 7.1.1
+modtime = 1527746643.967948000
+
+[app/package/check_for_updates]
+version = 6.5.2
+modtime = 1491622072.916242000
+
+[views/asd_essential_8__daily_backup_of_important_data__overview]
+owner = admin
+version = 7.1.1
+modtime = 1528255817.350729000
+
+[views/asd_essential_8__disable_untrusted_macros]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255830.953708000
+
+[views/asd_essential_8__user_application_hardening__details]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255903.302424000
+
+[views/asd_essential_8__application_whitelisting__overview]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255800.590939000
+
+[lookups/riskscore.csv]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1495161035.267794000
+
+[transforms/riskscore]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1494756007.480905000
+
+[savedsearches/Application%20Whitelisting]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1497858748.769878000
+
+[savedsearches/Privileged%20Admin%20Total%20Report]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.5.2
+modtime = 1497859547.273204000
+
+[savedsearches/Macro%20Trusted%20Locations%20By%20Office%20Application]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 7.1.1
+modtime = 1527732889.190061000
+
+[views/asd_essential_8__disable_untrusted_macros__details]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255824.115967000
+
+[savedsearches/Distinct%20Count%20of%20Trusted%20Locations]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.6.2
+modtime = 1499674496.549628000
+
+[savedsearches/Macro%20Settings%20in%20Environment]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 7.1.1
+modtime = 1527732875.225336000
+
+[savedsearches/Distinct%20Privileged%20Users%20over%2030%20Days]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 7.0.1
+modtime = 1513646230.924918000
+
+[views/asd_essential_8__patch_operating_systems__details]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255867.119418000
+
+[props/WinEventLog%3AMicrosoft-Windows-Backup/EXTRACT-message]
+access = read : [ * ], write : [ admin ]
+owner = admin
+version = 7.0.1
+modtime = 1515982402.100957000
+
+[views/asd_essential_8__daily_backup_of_important_data__details]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255811.738196000
+
+[views/asd_essential_8__restrict_admin_privileges__authentication__overview]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528255888.660596000
+
 
 ### EVENT TYPES
 

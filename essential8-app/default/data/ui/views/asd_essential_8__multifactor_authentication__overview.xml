@@ -1,5 +1,5 @@
 <form>
-  <label>ASD Essential 8 - Multi-factor authentication - Overview</label>
+  <label>Multi-factor authentication - Overview</label>
   <fieldset submitButton="true">
     <input type="time" token="field1">
       <label></label>
@@ -8,45 +8,88 @@
         <latest></latest>
       </default>
     </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
   </fieldset>
-  <row>
+  <row depends="$showDescription$">
     <panel>
-      <title>Multifactor Authentication Attempts</title>
-      <single>
-        <search>
-          <query>index=main eventtype=okta-events (action.objectType="core.user_auth.mfa_bypass_attempted" OR action.objectType="core.user.sms.message_sent.verify")    | timechart count(eventId) as value</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="showSparkline">1</option>
-      </single>
+      <title>Description</title>
+      <html>
+      <p>Multi-factor authentication including for VPNs, RDP, SSH and other remote access, and for all users when they perform a privileged action or access an important (sensitive/high-availability) data repository.  
+      <li>
+            <b>Why?</b> - Because, stronger user authentication makes it harder for adversaries to access sensitive information and systems.</li>
+        </p>
+    </html>
     </panel>
+  </row>
+  <row depends="$showHowToUse$">
     <panel>
-      <title>Top 10 Users of MFA</title>
-      <table>
-        <search>
-          <query>index=main eventtype=okta-events (action.objectType="core.user_auth.mfa_bypass_attempted" OR action.objectType="core.user.sms.message_sent.verify")  | rename actors{}.login as username| top limit=10 user</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="count">20</option>
-        <option name="dataOverlayMode">none</option>
-        <option name="drilldown">cell</option>
-        <option name="percentagesRow">false</option>
-        <option name="rowNumbers">false</option>
-        <option name="totalsRow">false</option>
-        <option name="wrap">true</option>
-      </table>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the systems that are being accessed by remote users, or that are being used to perform privileged or important actions and ensure those systems all enforce multi-factor authentication.  Use this graph to analyse trends of use.</p>
+    </html>
     </panel>
   </row>
   <row>
     <panel>
-      <title>Remote MFA Logins</title>
+      <title>Multifactor Authentication Attempts By App</title>
+      <chart>
+        <title>Distinct Users</title>
+        <search>
+          <query>| tstats dc(Multifactor.user) as Distinct from datamodel=Multifactor by _time, Multifactor.app
+| timechart partial=false useother=false max(Distinct) as Distinct by Multifactor.app</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Multifactor Authentication Attempts By Action</title>
+      <chart>
+        <title>Distinct Users</title>
+        <search>
+          <query>| tstats dc(Multifactor.user) as Distinct from datamodel=Multifactor by _time, Multifactor.action
+| timechart partial=false useother=false max(Distinct) as Distinct by Multifactor.action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Remote Authentication Events</title>
       <map>
         <search>
-          <query>index=main eventtype=okta-events (action.objectType="core.user_auth.mfa_bypass_attempted" OR action.objectType="core.user.sms.message_sent.verify") | iplocation src_ip | geostats count by City</query>
+          <query>| tstats count from datamodel=Multifactor by Multifactor.src_ip
+| rename Multifactor.* as *
+| iplocation src_ip
+| search lat=*
+| geostats count by City</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -73,7 +116,23 @@
         <option name="mapping.tileLayer.tileOpacity">1</option>
         <option name="mapping.tileLayer.url">http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png</option>
         <option name="mapping.type">marker</option>
+        <option name="refresh.display">progressbar</option>
       </map>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+      <p>
+          <ul>
+    <li>
+              <b>Multifactor Authentication Data</b> - RSA SecurId, Securenvoy, Okta, Symantec VIP.  Must log the action, the vendor, username, source address and message.</li>
+    <li>
+              <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

@@ -1,5 +1,5 @@
 <form>
-  <label>ASD Essential 8 - Application Whitelisting - Details</label>
+  <label>Application Whitelisting - Details</label>
   <fieldset submitButton="true">
     <input type="time" token="field1">
       <label></label>
@@ -8,30 +8,75 @@
         <latest>now</latest>
       </default>
     </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
   </fieldset>
+  <row>
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>An application whitelist only allows selected software applications to run on computers. This page provides details into Application Whitelisting controls in your environment. Providing visualisations related to counts of allowed, blocked and audit application whitelisting events by user.  In addition, the bottom two panels will show details in relation to executables and users that were blocked or allowed to run due to audit mode.</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to trends in application whitelisting blocked execution and audit execution trends.  Of importance are the following conditions <li>Application Whitelisting audit events, audit events are shown when a process is executed on a host that does not have application whitelisting rules enforced. </li>
+      <li>Administrators executing applications that should have been prevented by policy.</li>
+      <li>Risky application execution, i.e cmd.exe, powershell.exe, net.exe etc</li>
+      
+      </p>
+    </html>
+    </panel>
+  </row>
   <row>
     <panel>
       <title>Total Allowed by User</title>
       <chart>
         <search>
-          <query>| pivot Application_Whitelisting Application_Whitelisting_Allow count(Application_Whitelisting_Allow) AS "Count of Application Whitelisting Allow" SPLITROW _time AS _time PERIOD auto SPLITCOL user SORT 10 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 0</query>
+          <query>|  tstats count from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Allow) by _time, Application_Whitelisting.user
+| timechart minspan=10m useother=false partial=false count by Application_Whitelisting.user
+|  rename Application_Whitelisting.user as user</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="charting.chart">area</option>
+        <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
     <panel>
       <title>Total Blocked by User</title>
       <chart>
         <search>
-          <query>| pivot Application_Whitelisting Application_Whitelisting_Block count(Application_Whitelisting_Block) AS "Count of Application Whitelisting Block" SPLITROW _time AS _time PERIOD auto SPLITCOL user SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 1</query>
+          <query>|  tstats count from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Block) by _time, Application_Whitelisting.user
+| timechart minspan=10m useother=false partial=false count by Application_Whitelisting.user
+|  rename Application_Whitelisting.user as user</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="charting.chart">area</option>
+        <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
   </row>
@@ -40,12 +85,15 @@
       <title>Total Audit By User</title>
       <chart>
         <search>
-          <query>| pivot Application_Whitelisting Application_Whitelisting_Audit count(Application_Whitelisting_Audit) AS "Count of Application Whitelisting Audit" SPLITROW _time AS _time PERIOD auto SPLITCOL user SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 1</query>
+          <query>|  tstats count from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Audit) by _time, Application_Whitelisting.user
+| timechart minspan=10m useother=false partial=false count by Application_Whitelisting.user
+|  rename Application_Whitelisting.user as user</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="charting.chart">area</option>
+        <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
   </row>
@@ -54,7 +102,9 @@
       <title>Application Whitelisting Block Details</title>
       <table>
         <search>
-          <query>| pivot Application_Whitelisting Application_Whitelisting_Block count(Application_Whitelisting_Block) AS "count(Application_Whitelisting_Block)" SPLITROW file_path AS file_path SPLITCOL user SORT 10 file_path ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 1</query>
+          <query>|  tstats values(Application_Whitelisting.file_path) AS "File Path" latest(_time) AS Time from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Block) by Application_Whitelisting.user, host 
+|  rename Application_Whitelisting.user as user
+| eval Time = strftime(Time,"%c")</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -63,6 +113,7 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
@@ -74,11 +125,29 @@
       <title>Application Whitelisting Audit Details</title>
       <table>
         <search>
-          <query>| pivot Application_Whitelisting Application_Whitelisting_Audit count(Application_Whitelisting_Audit) AS "count(Application_Whitelisting_Audit)" SPLITROW file_path AS file_path SPLITCOL user SORT 10 file_path ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 10 SHOWOTHER 1</query>
+          <query>|  tstats values(Application_Whitelisting.file_path) AS "File Path" latest(_time) AS Time from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Audit) by Application_Whitelisting.user, host
+|  rename Application_Whitelisting.user as user
+| eval Time = strftime(Time,"%c")</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
+        <option name="refresh.display">progressbar</option>
       </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+      <p>
+          <ul>
+    <li>
+              <b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Airlock Digital, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
+    <li>
+              <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

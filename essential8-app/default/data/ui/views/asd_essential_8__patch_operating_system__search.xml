@@ -1,5 +1,5 @@
 <form>
-  <label>ASD Essential 8 - Patch Operating System - Search</label>
+  <label>Patch Operating System - Search</label>
   <fieldset submitButton="true">
     <input type="text" token="update">
       <label>Update</label>
@@ -12,24 +12,80 @@
         <latest></latest>
       </default>
     </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
   </fieldset>
+  <row depends="$showDescription$">
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>Patch/mitigate computers (including network devices) with ‘extreme risk’ vulnerabilities within 48 hours. Use the latest operating system version. Don't use unsupported versions. 
+      <li>
+            <b>Why?</b> - Security vulnerabilities in operating systems can be used to further the compromise of systems.</li>
+        </p>
+    </html>
+    </panel>
+  </row>
+  <row depends="$showHowToUse$">
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the Operating Systems in use, the latest identified vulnerabilities for these OSes and the last patch date for each OS, ensuring that no vulnerable system remains unpatched within the given timeframe.</p>
+    </html>
+    </panel>
+  </row>
   <row>
     <panel>
+      <title>Patching Details</title>
       <table>
         <search>
-          <query>| tstats max(_time) as _time,latest(Updates.status) as status from datamodel=Updates.Updates where *  (Updates.signature_id=$update$ OR Updates.signature=$update$)  by Updates.dest,Updates.signature_id,Updates.vendor_product | `drop_dm_object_name("Updates")`</query>
-          <earliest>-24h@h</earliest>
-          <latest>now</latest>
+          <query>| tstats latest(Updates.dest) as dest, latest(Updates.vendor_product) as vendor_product, max(_time) as _time,latest(Updates.signature_id) as signature_id, latest(Updates.status) as status from datamodel=Updates where (nodename = Updates) (Updates.signature_id=$update$) by host, Updates.signature_id
+| table _time, dest, signature_id, vendor_product, status</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="count">20</option>
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
       </table>
+    </panel>
+  </row>
+  <row depends="$showExampleSources$">
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+       <p>
+          <ul>
+   <li>
+              <b>Operating System Patch Data</b> - WSUS, SCCM, Windows Update log from hosts. The data needs to show the host name, the status of an update and the product</li>
+    <li>
+              <b>Asset Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

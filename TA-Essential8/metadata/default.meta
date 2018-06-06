@@ -1,9 +1,19 @@
 
 # Application-level permissions
 
+[app/ui]
+version = 7.0.1
+modtime = 1515981890.002538000
+
+[app/launcher]
+version = 7.0.1
+modtime = 1515981890.012815000
+
 []
 access = read : [ * ], write : [ admin, power ]
-
+export = system
+version = 7.0.1
+modtime = 1512558238.314513000
 ### EVENT TYPES
 
 [eventtypes]
@@ -33,3 +43,59 @@ export = system
 [viewstates]
 access = read : [ * ], write : [ * ]
 export = system
+
+
+[macros/appwhitelisting_index]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.0.1
+modtime = 1512604635.384968000
+
+[datamodels/Application_Whitelisting]
+version = 7.0.1
+modtime = 1512604761.930693000
+
+[models/Application_Whitelisting]
+version = 7.0.1
+modtime = 1512604761.946713000
+
+[datamodels/Backups]
+version = 7.0.1
+modtime = 1515977691.497089000
+
+[models/Backups]
+version = 7.0.1
+modtime = 1515977691.516127000
+
+[app/package/check_for_updates]
+version = 7.0.1
+modtime = 1515981890.013491000
+
+[datamodels/Backup]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1527739658.360309000
+
+[models/Backup]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.0.1
+modtime = 1516078959.921955000
+
+[datamodels/Multifactor]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528253888.364254000
+
+[models/Multifactor]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.1.1
+modtime = 1528252238.577468000

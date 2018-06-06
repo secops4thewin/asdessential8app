@@ -1,5 +1,51 @@
-<nav search_view="search" color="#65A637">
-  <view name="search" default='true' />
+<nav search_view="search" color="#33B8FF">
+  <collection label="Controls">
+
+    <collection label="Application Whitelisting">
+    <view name="asd_essential_8__application_whitelisting__overview" label="Application Whitelisting - Overview" default="true"/>
+    <view name="asd_essential_8__control_1__application_whitelisting__details"/>
+    </collection>
+
+    <collection label="Patch Applications">
+	</collection>
+	
+	<collection label="Configure Microsoft Office macro settings">
+	<view name="asd_essential_8__disable_untrusted_macros"/>
+	</collection>
+
+    <collection label="User Application Hardening">
+	<view name="asd_essential_8__user_application_hardening__overview"/>
+    <view name="asd_essential_8__user_application_hardening__details"/>
+	</collection>  	
+
+	<collection label="Restrict Administrative Privileges">
+          <view name="asd_essential_8__restrict_admin_privileges__authentication__overview"/>
+      <view name="asd_essential_8__control_5__restrict_admin_privileges"/>
+
+    <view name="asd_essential_8__control_5__restrict_admin_privileges___changes"/>
+    <view name="asd_essential_8__control_5__restrict_admin_privileges__changes_details"/>
+	</collection>
+    
+	<collection label="Patch Operating Systems">
+    <view name="asd_essential_8__patch_operating_systems"/>
+    <view name="asd_essential_8__patch_operating_systems__details"/>
+    <view name="asd_essential_8__patch_operating_system__search"/>
+	</collection>
+
+	<collection label="Multi-factor Authentication">
+    <view name="asd_essential_8__multifactor_authentication__overview"/>
+    <view name="asd_essential_9__multifactor_authentication__details"/>
+	  	</collection>
+
+	<collection label="Daily Backups">
+	<view name="asd_essential_8__daily_backup_of_important_data__overview"/>
+      <view name="asd_essential_8__daily_backup_of_important_data__details"/>
+	</collection>
+       
+  	</collection>
+
+
+    <view name="search"/>
   <view name="datasets" />
   <view name="reports" />
   <view name="alerts" />

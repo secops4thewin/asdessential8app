@@ -1,5 +1,5 @@
 <form>
-  <label>ASD Essential 8 - Restrict Admin Privileges - Authentication</label>
+  <label>Restrict Admin Privileges - Authentication - Details</label>
   <fieldset submitButton="true">
     <input type="time" token="field1">
       <label></label>
@@ -8,65 +8,46 @@
         <latest>now</latest>
       </default>
     </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
   </fieldset>
-  <row>
+  <row depends="$showDescription$">
     <panel>
-      <title>Total Successfull Privileged Authentication - Today</title>
-      <single>
-        <search>
-          <query>| pivot Authentication Successful_Privileged_Authentication count(Successful_Privileged_Authentication) AS "Count of Successful Privileged Authentication" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-      </single>
-    </panel>
-    <panel>
-      <title>Total Failed Privileged Authentication - Today</title>
-      <single>
-        <search>
-          <query>| pivot Authentication Failed_Privileged_Authentication count(Failed_Privileged_Authentication) AS "Count of Failed Privileged Authentication" ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-      </single>
+      <title>Description</title>
+      <html>
+      <p>Restrict administrative privileges to operating systems and applications based on user duties.  Regularly revalidate the need for privileges.  Don’t use privileged accounts for reading email and web browsing.</p>
+    </html>
     </panel>
   </row>
-  <row>
+  <row depends="$showHowToUse$">
     <panel>
-      <chart>
-        <search>
-          <query>| pivot Authentication Privileged_Authentication count(Privileged_Authentication) AS "Count of Privileged Authentication" SPLITROW _time AS _time PERIOD auto SPLITCOL action SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 100 SHOWOTHER 1</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
-        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
-        <option name="charting.axisTitleX.visibility">visible</option>
-        <option name="charting.axisTitleY.text">Count of Privileged Authentication</option>
-        <option name="charting.axisTitleY.visibility">visible</option>
-        <option name="charting.axisTitleY2.visibility">visible</option>
-        <option name="charting.axisX.scale">linear</option>
-        <option name="charting.axisY.scale">linear</option>
-        <option name="charting.axisY2.enabled">0</option>
-        <option name="charting.axisY2.scale">inherit</option>
-        <option name="charting.chart">area</option>
-        <option name="charting.chart.bubbleMaximumSize">50</option>
-        <option name="charting.chart.bubbleMinimumSize">10</option>
-        <option name="charting.chart.bubbleSizeBy">area</option>
-        <option name="charting.chart.nullValueMode">zero</option>
-        <option name="charting.chart.showDataLabels">none</option>
-        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
-        <option name="charting.chart.stackMode">default</option>
-        <option name="charting.chart.style">shiny</option>
-        <option name="charting.drilldown">all</option>
-        <option name="charting.layout.splitSeries">0</option>
-        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
-        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
-        <option name="charting.legend.placement">top</option>
-      </chart>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the following
+      <li>Which users have administrative privileges</li>
+      <li>What hosts each administrator can logon to</li>
+      <li>What hosts have had default authentication activity</li>
+      <li>Which users have had failed privileged authentication activity</li>
+      <li>Which users have performed privileged actions on many hosts</li>
+      </p>
+    </html>
     </panel>
   </row>
   <row>
@@ -74,7 +55,7 @@
       <title>Account Names of Privileged Users</title>
       <table>
         <search>
-          <query>| pivot Authentication Successful_Privileged_Authentication SPLITROW user AS user SPLITROW src_user AS src_user SORT 100 user ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1 | table user, src_user</query>
+          <query>| tstats count AS "Count of User Activities" values(host) as "Source Host" from datamodel=Authentication where (nodename = Authentication.Privileged_Authentication.Successful_Privileged_Authentication) NOT (Authentication.user=*$ OR Authentication.user=unknown) by Authentication.user, Authentication.app | sort -count</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -83,6 +64,7 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
@@ -92,7 +74,7 @@
       <title>Account Names of Failed Privileged Escalations</title>
       <table>
         <search>
-          <query>| pivot Authentication Failed_Privileged_Authentication SPLITROW user AS user SPLITROW src_user AS src_user SORT 100 user ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1 | table user, src_user</query>
+          <query>| tstats count AS "Count of Failed User Activities" values(host) as "Source Host" from datamodel=Authentication where (nodename = Authentication.Privileged_Authentication.Failed_Privileged_Authentication) NOT (Authentication.user=*$ OR Authentication.user=unknown) by Authentication.user, Authentication.app | sort -count</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -101,10 +83,57 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
       </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Default Account Activity</title>
+      <table>
+        <title>Default account activity is generated from accounts that use local authentication such as Administrator or root</title>
+        <search>
+          <query>| tstats max(_time) as _time,values(Authentication.user_category) as user_category,dc(Authentication.dest) as dc(dest) values(host) as host from datamodel=Authentication.Authentication where Authentication.user_category=default   by Authentication.user | `drop_dm_object_name("Authentication")` | sort 100 - _time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Privileged User Watchlist</title>
+      <table>
+        <title>Users Who Have Used Privileges on Over 5 Machines in the given time period</title>
+        <search>
+          <query>| tstats dc(host) as distinct from datamodel=Authentication where (nodename = Authentication.Privileged_Authentication.Successful_Privileged_Authentication) by Authentication.user | search distinct&gt;5</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+      <p>
+          <ul>
+    <li>
+              <b>Authentication Data</b> - *Nix, Windows, Microsoft Active Directory, SQL Database Authentication.  Must log the privilege and either success or failure.</li>
+    <li>
+              <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
     </panel>
   </row>
 </form>

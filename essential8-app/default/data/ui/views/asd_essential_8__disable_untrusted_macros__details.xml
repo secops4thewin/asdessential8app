@@ -1,0 +1,76 @@
+<dashboard>
+  <label>Disable Untrusted Macros - Details</label>
+  <row>
+    <panel>
+      <title>Email - Blocked Macros</title>
+      <single>
+        <search>
+          <query>|inputlookup essential8 | search control=email_macro_blocked |eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | timechart values(value) as value</query>
+          <earliest>1490706000</earliest>
+          <latest>1491314400</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">percent</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Email - Allowed Macros</title>
+      <single>
+        <search>
+          <query>|inputlookup essential8 | search control=email_macro_allowed | eval _time=strptime(date,"%d/%m/%Y %H:%M:%S") | timechart values(value) as value</query>
+          <earliest>1490706000</earliest>
+          <latest>1491314400</latest>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">block</option>
+        <option name="numberPrecision">0</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">percent</option>
+        <option name="trendInterval">-24h</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">0</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Macro Trusted Locations By Office Application and Version</title>
+        <search ref="Macro Trusted Locations By Office Application"></search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Email - Allowed Macro Details</title>
+      <table>
+        <search>
+          <query>|inputlookup essential8 | search control=email_macro_allowed_contents | table value, value2, value3 | rename value as "Recipient", value2 as Sender, value3 as "File Name"</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>

@@ -1,6 +1,6 @@
 <form>
-  <label>Restrict Admin Privileges -  Changes Overview</label>
-  <fieldset submitButton="true">
+  <label>Application Whitelisting - Overview</label>
+  <fieldset submitButton="true" autoRun="false">
     <input type="time" token="field1">
       <label></label>
       <default>
@@ -32,9 +32,7 @@
     <panel>
       <title>Description</title>
       <html>
-      <p>Only use administrator privileges for managing systems, installing legitimate software and applying software patches. These should be restricted to only those that need them.
-
-<b>Why?</b> Admin accounts are the 'keys to the kingdom', adversaries use these accounts for full access to information and systems. This page provides an overview of privileged activities related to changes in your environment of both hosts and users.</p>
+      <p>An application whitelist only allows selected software applications to run on computers. This page provides an overview of how you are tracking against key metrics in reporting against Application whitelisting. Providing total counts of allowed, blocked and audit application whitelisting events.  With the data collected from the 3 prior categories and data from a assett inventory source, such as Active directory, we can then identify the percentage coverage of hosts that have application whitelisting enforced in your environment.</p>
     </html>
     </panel>
   </row>
@@ -42,21 +40,22 @@
     <panel>
       <title>How to Use This Dashboard</title>
       <html>
-      <p>When reviewing this dashboard, you should pay attention to number of account changes in the environment looking for increases in each of the categories.  In addition, review the changes by type in the centre dashboard.</p>
+      <p>When reviewing this dashboard you should pay attention to the percentage of hosts that have application whitelisting and also trends in application whitelisting blocked execution and audit execution trends</p>
     </html>
     </panel>
   </row>
   <row>
     <panel>
-      <title>Deleted Accounts</title>
+      <title>Allowed Processes</title>
       <single>
+        <title>Processes approved and run.</title>
         <search>
-          <query>| tstats  count AS "Count of Created Accounts" from datamodel=Change_Analysis where (nodename = All_Changes.Account_Management.Accounts_Deleted) by _time</query>
+          <query>| tstats count AS "Count of Application Whitelisting Allow" from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Allow) groupby _time</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
-        <option name="colorBy">trend</option>
+        <option name="colorBy">value</option>
         <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
@@ -65,95 +64,25 @@
         <option name="refresh.display">progressbar</option>
         <option name="showSparkline">1</option>
         <option name="showTrendIndicator">1</option>
-        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendColorInterpretation">standard</option>
         <option name="trendDisplayMode">percent</option>
-        <option name="trendInterval">-1h</option>
         <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
+        <option name="useColors">0</option>
         <option name="useThousandSeparators">1</option>
       </single>
     </panel>
     <panel>
-      <title>Created Accounts</title>
+      <title>Blocked Processes</title>
       <single>
+        <title>Processes not approved and blocked</title>
         <search>
-          <query>| tstats  count AS "Count of Created Accounts" from datamodel=Change_Analysis where (nodename = All_Changes.Account_Management.Accounts_Created) by _time</query>
+          <query>| tstats count AS "Count of Application Whitelisting Block" from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Block) groupby _time</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="colorBy">trend</option>
-        <option name="colorMode">block</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
-        <option name="rangeValues">[0,30,70,100]</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trendColorInterpretation">inverse</option>
-        <option name="trendDisplayMode">percent</option>
-        <option name="trendInterval">-1h</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-      </single>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>Changes by Type</title>
-      <chart>
-        <search>
-          <query>| tstats  count AS "Count of Account Management" from datamodel=Change_Analysis where (nodename = All_Changes.Account_Management) by All_Changes.result 
-|  sort - "Count of Account Management" 
-|  head 10</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="charting.chart">pie</option>
-        <option name="refresh.display">progressbar</option>
-      </chart>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>Account Modifications</title>
-      <single>
-        <search>
-          <query>| tstats  count AS "Count of Modification Accounts" from datamodel=Change_Analysis where (nodename = All_Changes.Account_Management.Accounts_Updated) by _time</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="colorBy">trend</option>
-        <option name="colorMode">block</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
-        <option name="rangeValues">[0,30,70,100]</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trendColorInterpretation">inverse</option>
-        <option name="trendDisplayMode">percent</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-      </single>
-    </panel>
-    <panel>
-      <title>Locked Accounts</title>
-      <single>
-        <search>
-          <query>| tstats  count AS "Count of Locked Accounts" from datamodel=Change_Analysis where (nodename = All_Changes.Account_Management.Account_Lockouts) by _time</query>
-          <earliest>$field1.earliest$</earliest>
-          <latest>$field1.latest$</latest>
-          <sampleRatio>1</sampleRatio>
-        </search>
-        <option name="colorBy">trend</option>
-        <option name="colorMode">block</option>
+        <option name="colorMode">none</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
         <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
@@ -169,6 +98,76 @@
         <option name="useThousandSeparators">1</option>
       </single>
     </panel>
+    <panel>
+      <title>Audit Allowed Processes</title>
+      <single>
+        <title>This should be 0 unless you are testing</title>
+        <search>
+          <query>| tstats count AS "Count of Application Whitelisting Audit" from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Audit) groupby _time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">percent</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Hosts Reporting Application Whitelisting Data</title>
+      <single>
+        <search>
+          <query>| tstats dc(host) as "Distinct Hosts" from datamodel=Application_Whitelisting</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="height">251</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Total Hosts in Environment</title>
+      <single>
+        <search>
+          <query>| pivot Identity_Management Assets_That_Require_Application_Whitelisting count(Assets_That_Require_Application_Whitelisting) AS "Count of Assets That Require Application Whitelisting" ROWSUMMARY 0 COLSUMMARY 0 SHOWOTHER 1</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="height">249</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Hosts with Auditing Enabled</title>
+      <single>
+        <search>
+          <query>| tstats dc(host) as "Distinct Hosts" from datamodel=Application_Whitelisting where (nodename = Application_Whitelisting.Application_Whitelisting_Audit)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="height">250</option>
+        <option name="rangeColors">["0x65a637","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[5,10]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
   </row>
   <row depends="$showExampleSources$">
     <panel>
@@ -177,7 +176,7 @@
        <p>
           <ul>
     <li>
-              <b>Change Data</b> - This dashboard provides a broad view of changes in the environment.  At a high level you should index any data that has an audit trail that contains a username, an action and whether the action was successful or not.</li>
+              <b>Application Whitelisting Data</b> - Microsoft Applocker, Symantec Endpoint Protection, Airlock Digital, Heat Application Control.  These sources must log Allows, Blocks and Audit to provide accurate data</li>
     <li>
               <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
   </ul>

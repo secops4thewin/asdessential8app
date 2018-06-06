@@ -1,0 +1,142 @@
+<form>
+  <label>Daily Backup of Important Data - Overview</label>
+  <fieldset submitButton="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>Daily backups of important new/changed data, software and configuration settings, stored disconnected, retained for at least three months. Test restoration initially, annually and when IT infrastructure changes. Why: To ensure information can be accessed again following a cyber security incident (e.g. after a successful ransomware incident).</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the percentage of failed backups over successfull backups.</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Percentage of Successful Backups</title>
+      <chart>
+        <search>
+          <query>| tstats count  from datamodel=Backup where (nodename = backup) groupby nodename, backup.action 
+|  rename backup.action as Action 
+|  eventstats sum(count) as Total
+| eval Percentage=(count/Total)*100, "Backup Type"=case(nodename="backup.host_backup", "Host Backup", nodename="backup.file_backup", "File Backup", nodename="backup.configuration_backup","Configuration Backup",nodename="backup","All Backups", 1=1, "Unknown")
+| stats last(Percentage) as Percentage, by "Backup Type", Action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.chart">pie</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">large</option>
+        <option name="trellis.splitBy">Backup Type</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Successful Backups</title>
+      <single>
+        <search>
+          <query>|  tstats dc(host) AS "Distinct Count of host" from datamodel=Backup where (nodename = backup) backup.action=success groupby _time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel"># Hosts Last Night</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Failed Backups</title>
+      <single>
+        <search>
+          <query>|  tstats dc(host) AS "Distinct Count of host" from datamodel=Backup where (nodename = backup) backup.action=failed groupby _time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel"># Hosts Last Night</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+      <p>
+          <ul>
+    <li>
+              <b>Backup Data</b> - Commvault, Microsoft Backup, Veeam, Vertias etc.  These sources must log successfull, failed and partial to provide accurate data and mapped to the Backup data model</li>
+    <li>
+              <b>Assett Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
+    </panel>
+  </row>
+</form>
