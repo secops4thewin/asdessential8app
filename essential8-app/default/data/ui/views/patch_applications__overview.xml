@@ -1,0 +1,143 @@
+<form>
+  <label>Patch Applications - Overview</label>
+  <search id="baseSearch">
+    <query>`windows_patch_applications` source="WinEventLog:Application" SourceName=MsiInstaller earliest=-180d (signature_id=1033 OR signature_id=1036) 
+| rex field=Message "Product\sName:\s(?&lt;prod_name&gt;.+?)Product\sVersion\:\s(?&lt;prod_version&gt;[\d\.]+)\..+?Manufacturer\:\s(?&lt;prod_manu&gt;.+?)\."
+| strcat prod_manu " " prod_name " " prod_version product2
+| eval application = coalesce(package_title, product2) 
+|  stats values(host) as hosts last(_time) as last_date by application 
+| search application=$application$
+| eval "Installed Date"=strftime(last_date,"%Y-%m-%d")
+| rex field=application "(?&lt;version&gt;\d+[\d\.]+)($$|\))"
+| rex mode=sed "s/[\(\)]//g" field=application
+|  cluster field=application match=termlist labelfield=ApplicationGroup t=0.98 labelonly=true
+|  stats values(hosts) as hosts, max(version) as latest_rev, min(version) as earliest_rev values(application) as apps by ApplicationGroup</query>
+    <earliest>$field2.earliest$</earliest>
+    <latest>$field2.latest$</latest>
+    <sampleRatio>1</sampleRatio>
+  </search>
+  <fieldset submitButton="true">
+    <input type="text" token="application">
+      <label>Application Name</label>
+      <default>*</default>
+      <prefix>"</prefix>
+      <suffix>"</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="time" token="field2">
+      <label></label>
+      <default>
+        <earliest>-7d@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
+  </fieldset>
+  <row depends="$showDescription$">
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>Patch applications e.g. Flash, web browsers, Microsoft Office, Java and PDF viewers. Patch/mitigate computers with ‘extreme risk’ vulnerabilities within 48 hours. Use the latest version of applications. 
+      <li>
+            <b>Why?</b> - Security vulnerabilities in applications can be used to execute malicious code on systems.</li>
+        </p>
+    </html>
+    </panel>
+  </row>
+  <row depends="$showHowToUse$">
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the applications being patched and reviewing, if your environment has multiple versions of applications running across your environment.  For example, 1 host running Adobe 18.011.20040 and another 18.011.20055</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Applications with different versions</title>
+      <single>
+        <search base="baseSearch">
+          <query>| where earliest_rev!=latest_rev 
+|  stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Application Groups</title>
+      <single>
+        <search base="baseSearch">
+          <query>|  stats dc(ApplicationGroup) as "Unique Application Groups"</query>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Application Installs Over time</title>
+      <chart>
+        <search>
+          <query>`windows_patch_applications` source="WinEventLog:Application" SourceName=MsiInstaller earliest=-180d (signature_id=1033 OR signature_id=1036)
+|  timechart count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Median Time to Patch</title>
+      <single>
+        <search>
+          <query>`windows_patch_applications` source="WinEventLog:Application" SourceName=MsiInstaller earliest=-180d (signature_id=1033 OR signature_id=1022 OR signature_id=1036)
+| eval difference=now()-_time 
+| stats median(difference) as last_patch by host
+| eventstats median(last_patch) as last_patch
+| eval last_patch = strftime(last_patch,"%d")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+  </row>
+  <row depends="$showExampleSources$">
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+       <p>
+          <ul>
+   <li>
+              <b>Windows Application Eventlogs</b> - Specifically the MsiInstaller event</li>
+    <li>
+              <b>Asset Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
+    </panel>
+  </row>
+</form>

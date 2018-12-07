@@ -1,0 +1,65 @@
+[app/install/install_source_checksum]
+version = 7.1.0
+modtime = 1533415342.195957000
+
+[views/patch_applications__search]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 7.1.0
+modtime = 1543535676.282115000
+
+[nav/default]
+version = 7.1.0
+modtime = 1543794930.180730000
+
+[views/patch_applications__overview]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = admin
+version = 7.1.0
+modtime = 1544151048.810508000
+
+[app/ui]
+version = 7.1.0
+modtime = 1543795028.166989000
+
+[app/launcher]
+version = 7.1.0
+modtime = 1543795028.169350000
+
+[app/package/check_for_updates]
+version = 7.1.0
+modtime = 1543795028.170411000
+
+[savedsearches/Distinct%20Count%20of%20Trusted%20Locations]
+version = 7.1.0
+modtime = 1544152648.152188000
+
+[savedsearches/Distinct%20Privileged%20Users%20over%2030%20Days]
+version = 7.1.0
+modtime = 1544152642.243242000
+
+[savedsearches/Macro%20Settings%20in%20Environment]
+version = 7.1.0
+modtime = 1544151858.534763000
+
+[savedsearches/Macro%20Trusted%20Locations%20By%20Office%20Application]
+version = 7.1.0
+modtime = 1544151863.369980000
+
+[views/asd_essential_8__restrict_admin_privileges__authentication__overview]
+version = 7.1.0
+modtime = 1544152621.167447000
+
+[views/asd_essential_8__control_5__restrict_admin_privileges]
+version = 7.1.0
+modtime = 1544152521.912891000
+
+[savedsearches/Privileged%20Admin%20Total%20Report]
+version = 7.1.0
+modtime = 1544152635.194100000
+
+[savedsearches/Application%20Whitelisting]
+version = 7.1.0
+modtime = 1544152653.848748000

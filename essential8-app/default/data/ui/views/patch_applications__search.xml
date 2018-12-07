@@ -1,0 +1,102 @@
+<form>
+  <label>Patch Applications - Search</label>
+  <fieldset submitButton="true">
+    <input type="text" token="application">
+      <label>Application Name</label>
+      <default>*</default>
+      <prefix>"</prefix>
+      <suffix>"</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="time" token="field2">
+      <label></label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+    <input type="radio" token="showGuidance" searchWhenChanged="true">
+      <label>Show Guidance</label>
+      <choice value="true">On</choice>
+      <choice value="false">Off</choice>
+      <default>true</default>
+      <initialValue>true</initialValue>
+      <change>
+        <condition value="true">
+          <set token="showDescription">true</set>
+          <set token="showHowToUse">true</set>
+          <set token="showExampleSources">true</set>
+        </condition>
+        <condition>
+          <unset token="showDescription"></unset>
+          <unset token="showHowToUse"></unset>
+          <unset token="showExampleSources"></unset>
+        </condition>
+      </change>
+    </input>
+  </fieldset>
+  <row depends="$showDescription$">
+    <panel>
+      <title>Description</title>
+      <html>
+      <p>Patch applications e.g. Flash, web browsers, Microsoft Office, Java and PDF viewers. Patch/mitigate computers with ‘extreme risk’ vulnerabilities within 48 hours. Use the latest version of applications. 
+      <li>
+            <b>Why?</b> - Security vulnerabilities in applications can be used to execute malicious code on systems.</li>
+        </p>
+    </html>
+    </panel>
+  </row>
+  <row depends="$showHowToUse$">
+    <panel>
+      <title>How to Use This Dashboard</title>
+      <html>
+      <p>When reviewing this dashboard you should pay attention to the applications being patched and reviewing, if your environment has multiple versions of applications running across your environment.  For example, 1 host running Adobe 18.011.20040 and another 18.011.20055</p>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Application Search</title>
+      <table>
+        <search>
+          <query>`windows_patch_applications` source="WinEventLog:Application" SourceName=MsiInstaller earliest=-180d (signature_id=1033 OR signature_id=1022 OR signature_id=1036) 
+| rex field=Message "(?ms)Product:\s(?&lt;product&gt;.+?)\s\'(?&lt;package_title&gt;.+?)\'" 
+| rex field=Message "Product\sName:\s(?&lt;prod_name&gt;.+?)Product\sVersion\:\s(?&lt;prod_version&gt;[\d\.]+)\..+?Manufacturer\:\s(?&lt;prod_manu&gt;.+)\. Installation"
+| strcat prod_manu " " prod_name " " prod_version product2 
+| eval application = coalesce(package_title, product2) 
+| stats last(_time) as last_date, values(host) as hosts by application 
+| search application=$application$ 
+| eval "Installed Date"=strftime(last_date,"%Y-%m-%d") 
+| rex field=application "(?&lt;version&gt;\d+[\d\.]+)($$|\))" 
+| fields - last_date</query>
+          <earliest>$field2.earliest$</earliest>
+          <latest>$field2.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row depends="$showExampleSources$">
+    <panel>
+      <title>Example data sources to power this dashboard</title>
+      <html>
+       <p>
+          <ul>
+   <li>
+              <b>Windows Application Eventlogs</b> - Specifically the MsiInstaller event</li>
+    <li>
+              <b>Asset Inventory Data</b> - Microsoft Active Directory, CMDB, SCCM.  These sources must log the hostnames to allow comparison to Application Whitelisting Data.</li>
+  </ul>
+      </p>
+    </html>
+    </panel>
+  </row>
+</form>

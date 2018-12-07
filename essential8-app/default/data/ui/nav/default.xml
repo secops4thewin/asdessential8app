@@ -7,6 +7,9 @@
     </collection>
 
     <collection label="Patch Applications">
+      <view name="patch_applications__search"/>
+      <view name="patch_applications__overview"/>
+      <view name="patch_applications__details" />
 	</collection>
 	
 	<collection label="Configure Microsoft Office macro settings">
