@@ -8,4 +8,7 @@ We accept pull requests and forks.  Do you have a data source that you would lik
 ## Want to take the worry out of deploying this app?
 Reach out to the canberra team via email canberra[@]splunk[.]com
 
+## Need Documentation
+Look here :) https://github.com/secops4thewin/asdessential8app/wiki
+
 
