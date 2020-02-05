@@ -70,7 +70,7 @@
       <title>Allowed Active Content by Domain</title>
       <table>
         <search>
-          <query>| tstats  values(Web.user) as user values(Web.src) as host values(Web.http_content_type) as "Content Type" values(Web.http_user_agent) as "User-Agent" count from datamodel=Web where (nodename=Web.Proxy (Web.http_content_type=*Shockwave* OR Web.http_content_type=*Flash* OR Web.http_user_agent="Java*" OR http_user_agent="*flash") Web.action=allowed) by Web.dest  | sort -count | rename Web.dest as Domain, host as Source, user as User</query>
+          <query>| tstats  values(Web.user) as user values(Web.src) as host values(Web.http_content_type) as "Content Type" values(Web.http_user_agent) as "User-Agent" count from datamodel=Web where (nodename=Web.Proxy (Web.http_content_type=*Shockwave* OR Web.http_content_type=*Flash* OR Web.http_user_agent="Java*" OR http_user_agent="*flash" OR Web.http_content_type=*x_flv) Web.action=allowed) by Web.dest  | sort -count | rename Web.dest as Domain, host as Source, user as User</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
           <sampleRatio>1</sampleRatio>
